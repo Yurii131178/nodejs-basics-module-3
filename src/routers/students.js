@@ -1,10 +1,9 @@
 import { Router } from 'express';
-// import { getAllStudents, getStudentById } from '../services/students.js';
-
 import {
-  getStudentsController,
   getStudentByIdController,
-} from '../controllers/students.js';
+  getStudentsController,
+} from '../conrollers/students.js';
+// import { getAllStudents, getStudentById } from '../services/students.js';
 
 const router = Router();
 
