@@ -9,7 +9,7 @@ import { getEnvVar } from './utils/getEnvVar.js';
 
 // import { getAllStudents, getStudentById } from './services/students.js';
 
-// =====!!!modlewares!!!======
+// ========================== Middlewares ========================== //
 /**у файлі server.js імпортуємо наші middleware та додамо за допомогою app.use. */
 
 // Імпортуємо middleware
