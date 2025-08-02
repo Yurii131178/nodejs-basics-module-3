@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
   getStudentByIdController,
   getStudentsController,
+  createStudentController,
 } from '../controllers/students.js';
 
 //Створимо у папці src/utils файл ctrlWrapper.js, де оголосимо та експортуємо функцію-обгортку ctrlWrapper.
@@ -12,11 +13,10 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js'; // імпртуємо 'ct
 
 const router = Router();
 
-// router.get('/students', getStudentsController);
-// router.get('/students/:studentId', getStudentByIdController);
-
 router.get('/students', ctrlWrapper(getStudentsController)); // додаємо функцію-обгортку ctrlWrapper
 
 router.get('/students/:studentId', ctrlWrapper(getStudentByIdController)); // // додаємо функцію-обгортку ctrlWrapper
+
+router.post('/students', ctrlWrapper(createStudentController)); // !!! новий роут для створення студентів !!!!!
 
 export default router;
