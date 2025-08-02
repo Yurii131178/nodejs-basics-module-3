@@ -17,5 +17,8 @@ export const createStudent = async (payload) => {
 };
 
 export const deleteStudent = async (studentId) => {
-  // Тіло функції
+  const student = await StudentsCollection.findByIdAndDelete({
+    _id: studentId,
+  });
+  return student;
 };
