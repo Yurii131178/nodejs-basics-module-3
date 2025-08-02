@@ -3,6 +3,7 @@ import {
   getStudentByIdController,
   getStudentsController,
   createStudentController,
+  deleteStudentController,
 } from '../controllers/students.js';
 
 //Створимо у папці src/utils файл ctrlWrapper.js, де оголосимо та експортуємо функцію-обгортку ctrlWrapper.
@@ -18,5 +19,7 @@ router.get('/students', ctrlWrapper(getStudentsController)); // додаємо �
 router.get('/students/:studentId', ctrlWrapper(getStudentByIdController)); // // додаємо функцію-обгортку ctrlWrapper
 
 router.post('/students', ctrlWrapper(createStudentController)); // !!! новий роут для створення студентів !!!!!
+
+router.delete('/students/:studentId', ctrlWrapper(deleteStudentController));
 
 export default router;
