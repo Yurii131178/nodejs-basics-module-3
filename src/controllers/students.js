@@ -1,4 +1,8 @@
-import { getAllStudents, getStudentById } from '../services/students.js';
+import {
+  createStudent,
+  getAllStudents,
+  getStudentById,
+} from '../services/students.js';
 
 // 1. Імпортуємо функцію з бібліотеки
 import createHttpError from 'http-errors';
@@ -35,5 +39,10 @@ export const getStudentsController = async (req, res, next) => {
 };
 
 export const createStudentController = async (req, res) => {
-  // Тіло функції
+  const student = await createStudent(req.body);
+  res.status(201).json({
+    status: 201,
+    message: 'Successfully created a student!',
+    data: student,
+  });
 };
