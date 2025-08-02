@@ -12,5 +12,6 @@ export const getStudentById = async (studentId) => {
 };
 
 export const createStudent = async (payload) => {
-  // Тіло функції
+  const student = await StudentsCollection.create(payload);
+  return student;
 };
