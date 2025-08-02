@@ -46,3 +46,7 @@ export const createStudentController = async (req, res) => {
     data: student,
   });
 };
+
+export const deleteStudentController = async (req, res) => {
+  const { studentId } = req.params;
+};
