@@ -2,15 +2,15 @@
 
 import { getAllStudents, getStudentById } from '../services/students.js';
 
-export const getStudentsController = async (req, res) => {
-  const students = await getAllStudents();
+// export const getStudentsController = async (req, res) => {
+//   const students = await getAllStudents();
 
-  res.json({
-    status: 200,
-    message: 'Successfully found students!',
-    data: students,
-  });
-};
+//   res.json({
+//     status: 200,
+//     message: 'Successfully found students!',
+//     data: students,
+//   });
+// };
 
 /**================Обробка помилок====================
 
@@ -43,7 +43,7 @@ export const getStudentsController = async (req, res) => {
 Доповнимо код контролера getStudentByIdController параметром next і створенням об’єкта помилки, якщо студента не знайдено: */
 
 // src/controllers/students.js
-
+//.........................................................
 export const getStudentByIdController = async (req, res, next) => {
   const { studentId } = req.params;
   const student = await getStudentById(studentId);
@@ -68,3 +68,29 @@ export const getStudentByIdController = async (req, res, next) => {
     data: student,
   });
 };
+//.....................................................
+/**============Обгортка обробки помилок=====================
+
+
+Будь-який запит у базу даних це асинхронна операція, яка може бути відхилена з помилкою. Тому необхідно обгорнути виклики таких функцій у блок try...catch. Взагалі, будь-які асинхронні операції бажано обгортати в цей блок, оскільки є вірогідність, що вони можуть впасти з помилкою, і тоді вебсервер також впаде, оскільки ми матимемо unhandledRejection — необроблене відхилення промісу.
+
+Логічним місцем використання try...catch буде контролер, наприклад, ось так: */
+
+//.......................................
+// src/controllers/students.js
+
+export const getStudentsController = async (req, res, next) => {
+  try {
+    const students = await getAllStudents();
+
+    res.json({
+      status: 200,
+      message: 'Successfully found students!',
+      data: students,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//.......................................
