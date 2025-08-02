@@ -10,3 +10,7 @@ export const getStudentById = async (studentId) => {
   const student = await StudentsCollection.findById(studentId);
   return student;
 };
+
+export const createStudent = async (payload) => {
+  // Тіло функції
+};
