@@ -5,6 +5,7 @@ import {
   createStudentController,
   deleteStudentController,
   upsertStudentController,
+  patchStudentController,
 } from '../controllers/students.js';
 
 //Створимо у папці src/utils файл ctrlWrapper.js, де оголосимо та експортуємо функцію-обгортку ctrlWrapper.
@@ -24,5 +25,7 @@ router.post('/students', ctrlWrapper(createStudentController)); // !!! нови�
 router.delete('/students/:studentId', ctrlWrapper(deleteStudentController));
 
 router.put('/students/:studentId', ctrlWrapper(upsertStudentController));
+
+router.patch('/students/:studentId', ctrlWrapper(patchStudentController));
 
 export default router;
