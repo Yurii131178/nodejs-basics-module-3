@@ -22,3 +22,5 @@ export const deleteStudent = async (studentId) => {
   });
   return student;
 };
+
+export const updateStudent = async (studentId, payload, options = {}) => {};
