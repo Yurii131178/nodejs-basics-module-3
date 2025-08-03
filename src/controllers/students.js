@@ -26,6 +26,7 @@ export const getStudentByIdController = async (req, res) => {
   });
 };
 
+// GET-route
 export const getStudentsController = async (req, res, next) => {
   try {
     const students = await getAllStudents();
@@ -40,6 +41,7 @@ export const getStudentsController = async (req, res, next) => {
   }
 };
 
+// POST-route
 export const createStudentController = async (req, res) => {
   const student = await createStudent(req.body);
   res.status(201).json({
@@ -49,6 +51,7 @@ export const createStudentController = async (req, res) => {
   });
 };
 
+// DELETE-route
 export const deleteStudentController = async (req, res, next) => {
   const { studentId } = req.params;
   const student = await deleteStudent(studentId);
@@ -60,9 +63,9 @@ export const deleteStudentController = async (req, res, next) => {
   res.status(204).send();
 };
 
+// PUT-route
 export const upsertStudentController = async (req, res, next) => {
   const { studentId } = req.params;
-
   const result = await updateStudent(studentId, req.body, {
     upsert: true,
   });
@@ -81,4 +84,19 @@ export const upsertStudentController = async (req, res, next) => {
   });
 };
 
-export const patchStudentController = async (req, res) => {};
+// PATCH-route
+export const patchStudentController = async (req, res, next) => {
+  const { studentId } = req.params;
+  const result = await updateStudent(studentId, req.body);
+
+  if (!result) {
+    next(createHttpError(404, 'Student not found'));
+    return;
+  }
+
+  res.json({
+    status: 200,
+    message: `Successfully patched a student!`,
+    data: result.student,
+  });
+};
