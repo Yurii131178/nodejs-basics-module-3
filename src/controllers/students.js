@@ -80,3 +80,5 @@ export const upsertStudentController = async (req, res, next) => {
     data: result.student,
   });
 };
+
+export const patchStudentController = async (req, res) => {};
