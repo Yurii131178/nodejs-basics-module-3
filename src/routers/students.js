@@ -14,7 +14,10 @@ import {
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js'; // імпртуємо 'ctrlWrapper'
 import { validateBody } from '../middlewares/validateBody.js';
-import { createStudentSchema } from '../validation/students.js';
+import {
+  createStudentSchema,
+  updateStudentSchema,
+} from '../validation/students.js';
 
 const router = Router();
 
@@ -25,14 +28,26 @@ router.get('/students/:studentId', ctrlWrapper(getStudentByIdController)); // //
 router.post(
   '/students',
 
-  validateBody(createStudentSchema),
+  validateBody(createStudentSchema), // додаємо middleware validationBody пристворенні сутності
 ),
   ctrlWrapper(createStudentController); // !!! новий роут для створення студентів !!!!!
 
 router.delete('/students/:studentId', ctrlWrapper(deleteStudentController));
 
-router.put('/students/:studentId', ctrlWrapper(upsertStudentController));
+router.put(
+  '/students/:studentId',
 
-router.patch('/students/:studentId', ctrlWrapper(patchStudentController));
+  validateBody(createStudentSchema), // додаємо middleware validationBody при оновленні сутності
+
+  ctrlWrapper(upsertStudentController),
+);
+
+router.patch(
+  '/students/:studentId',
+
+  validateBody(updateStudentSchema), // додаємо middleware validationBody при оновленні сутності
+
+  ctrlWrapper(patchStudentController),
+);
 
 export default router;
