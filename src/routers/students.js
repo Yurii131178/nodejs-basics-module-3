@@ -17,36 +17,43 @@ import { validateBody } from '../middlewares/validateBody.js';
 import {
   createStudentSchema,
   updateStudentSchema,
-} from '../validation/students.js';
+} from '../validation/students.js'; // валідатори схеми з обов'язковими полями і не дуже
+import { isValidId } from '../middlewares/isValidId.js'; // валідатор id
 
 const router = Router();
 
 router.get('/students', ctrlWrapper(getStudentsController)); // додаємо функцію-обгортку ctrlWrapper
 
-router.get('/students/:studentId', ctrlWrapper(getStudentByIdController)); // // додаємо функцію-обгортку ctrlWrapper
+router.get(
+  '/students/:studentId',
+  isValidId,
+  ctrlWrapper(getStudentByIdController),
+); // // додаємо функцію-обгортку ctrlWrapper
 
 router.post(
+  // !!! новий роут для створення студентів !!!!!
   '/students',
-
   validateBody(createStudentSchema), // додаємо middleware validationBody пристворенні сутності
-),
-  ctrlWrapper(createStudentController); // !!! новий роут для створення студентів !!!!!
+  ctrlWrapper(createStudentController),
+);
 
-router.delete('/students/:studentId', ctrlWrapper(deleteStudentController));
+router.delete(
+  '/students/:studentId',
+  isValidId,
+  ctrlWrapper(deleteStudentController),
+);
 
 router.put(
   '/students/:studentId',
-
+  isValidId,
   validateBody(createStudentSchema), // додаємо middleware validationBody при оновленні сутності
-
   ctrlWrapper(upsertStudentController),
 );
 
 router.patch(
   '/students/:studentId',
-
+  isValidId,
   validateBody(updateStudentSchema), // додаємо middleware validationBody при оновленні сутності
-
   ctrlWrapper(patchStudentController),
 );
 
