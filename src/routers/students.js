@@ -13,6 +13,8 @@ import {
 //Після цього можемо використати цю функцію у роутах для обгортання контролерів.
 
 import { ctrlWrapper } from '../utils/ctrlWrapper.js'; // імпртуємо 'ctrlWrapper'
+import { validateBody } from '../middlewares/validateBody.js';
+import { createStudentSchema } from '../validation/students.js';
 
 const router = Router();
 
@@ -20,7 +22,12 @@ router.get('/students', ctrlWrapper(getStudentsController)); // додаємо �
 
 router.get('/students/:studentId', ctrlWrapper(getStudentByIdController)); // // додаємо функцію-обгортку ctrlWrapper
 
-router.post('/students', ctrlWrapper(createStudentController)); // !!! новий роут для створення студентів !!!!!
+router.post(
+  '/students',
+
+  validateBody(createStudentSchema),
+),
+  ctrlWrapper(createStudentController); // !!! новий роут для створення студентів !!!!!
 
 router.delete('/students/:studentId', ctrlWrapper(deleteStudentController));
 
