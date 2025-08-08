@@ -8,12 +8,10 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getAllStudents = async ({ page, perPage }) => {
   const limit = perPage;
-
   const skip = (page - 1) * perPage;
 
   const studentsQuery = StudentsCollection.find();
-
-  const studentsCount = StudentsCollection.find()
+  const studentsCount = await StudentsCollection.find()
     .merge(studentsQuery)
     .countDocuments();
 
