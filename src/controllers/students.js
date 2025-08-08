@@ -8,6 +8,7 @@ import {
 
 // 1. Імпортуємо функцію з бібліотеки
 import createHttpError from 'http-errors';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
 export const getStudentByIdController = async (req, res) => {
   const { studentId } = req.params;
@@ -29,7 +30,13 @@ export const getStudentByIdController = async (req, res) => {
 // GET-route
 export const getStudentsController = async (req, res, next) => {
   try {
-    const students = await getAllStudents();
+    //користуючись парсером, ми можемо отримати значення page та perPage і передати їх далі до сервісу:
+    const { page, perPage } = parsePaginationParams(req.query);
+
+    const students = await getAllStudents({
+      page,
+      perPage,
+    }); // додаємо page і perPage
 
     res.json({
       status: 200,
