@@ -10,6 +10,8 @@ import {
 import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
+import { parseSortParams } from '../utils/parseSortParams.js';
+
 export const getStudentByIdController = async (req, res) => {
   const { studentId } = req.params;
   const student = await getStudentById(studentId);
@@ -30,13 +32,17 @@ export const getStudentByIdController = async (req, res) => {
 // GET-route
 export const getStudentsController = async (req, res, next) => {
   try {
-    //користуючись парсером, ми можемо отримати значення page та perPage і передати їх далі до сервісу:
+    //користуючись парсером, ми можемо отримати значення page та perPage і передати їх далі до сервісу: + sortBy, sortOrder
     const { page, perPage } = parsePaginationParams(req.query);
+
+    const { sortBy, sortOrder } = parseSortParams(req.query);
 
     const students = await getAllStudents({
       page,
       perPage,
-    }); // додаємо page і perPage
+      sortBy,
+      sortOrder,
+    }); // додаємо page і perPage, sortBy, sortOrder
 
     res.json({
       status: 200,
