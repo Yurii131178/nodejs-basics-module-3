@@ -1,4 +1,5 @@
 // src/services/students.js
+import { SORT_ORDER } from '../constants/index.js';
 import { StudentsCollection } from '../db/models/student.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
@@ -6,7 +7,12 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
  * Залишилось додати до сервісу логіку для того, щоб правильно запитувати дані з бази даних:
  */
 
-export const getAllStudents = async ({ page, perPage }) => {
+export const getAllStudents = async ({
+  page = 1,
+  perPage = 10,
+  sortOrder = SORT_ORDER.ASC,
+  sortBy = '_id',
+}) => {
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
@@ -15,7 +21,11 @@ export const getAllStudents = async ({ page, perPage }) => {
     .merge(studentsQuery)
     .countDocuments();
 
-  const students = await studentsQuery.skip(skip).limit(limit).exec();
+  const students = await studentsQuery
+    .skip(skip)
+    .limit(limit)
+    .sort({ [sortBy]: sortOrder }) // додаєм сортування
+    .exec();
 
   const paginationData = calculatePaginationData(studentsCount, perPage, page);
 
@@ -32,6 +42,8 @@ export const getAllStudents = async ({ page, perPage }) => {
 Передає отримані дані у функцію calculatePaginationData, яка розраховує та повертає інформацію для пагінації (загальну кількість сторінок, наявність наступної/попередньої).
 
 У результаті, функція повертає об'єкт зі списком студентів і повною інформацією для пагінації. */
+
+//додаємо сортування по полю і по напрямку-->
 export const getStudentById = async (studentId) => {
   const student = await StudentsCollection.findById(studentId);
   return student;
