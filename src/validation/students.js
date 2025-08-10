@@ -44,6 +44,7 @@ export const createStudentSchema = Joi.object({
     'string.max': 'Username should have at most {#limit} characters',
     'any.required': 'Username is required',
   }),
+  email: Joi.string().email(),
   age: Joi.number().integer().min(6).max(16).required().messages({
     'number.base': 'Age should be a number',
     'number.integer': 'Age must be an integer',
