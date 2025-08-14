@@ -1,17 +1,3 @@
-// src/middlewares/errorHandler.js
-
-// export const errorHandler = (err, req, res, next) => {
-//   res.status(500).json({
-//     message: 'Sometheing went wrong',
-//     error: err.message,
-//   });
-// };
-
-///////////////////////// - http-errors - //////////////////////////////////////////
-
-// src/middlewares/errorHandler.js
-
-// Імпортуємо клас HttpError для обробки помилок HTTP з відповідними статус-кодами
 import { HttpError } from 'http-errors';
 
 export const errorHandler = (err, req, res, next) => {

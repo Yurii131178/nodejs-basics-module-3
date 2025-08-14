@@ -35,19 +35,6 @@ export const getAllStudents = async ({
     studentsQuery.where('avgMark').gte(filter.minAvgMark);
   }
 
-  //зробимо рефакторінг щоб ці 2 запити (const studentsCount, students) оброблялись паралельно через Promise.all()
-  //...........................................
-  // const studentsCount = await StudentsCollection.find()
-  //   .merge(studentsQuery)
-  //   .countDocuments();
-
-  // const students = await studentsQuery
-  //   .skip(skip)
-  //   .limit(limit)
-  //   .sort({ [sortBy]: sortOrder }) // додаєм сортування
-  //   .exec();
-
-  //.......................рефакторинг.........................
   const [studentsCount, students] = await Promise.all([
     StudentsCollection.find().merge(studentsQuery).countDocuments(),
     studentsQuery
@@ -66,15 +53,6 @@ export const getAllStudents = async ({
   };
 };
 
-/**Функція getAllStudents отримує параметри page і perPage. Вона:
-
-Виконує запит до бази даних, щоб отримати потрібну частину даних за допомогою skip і limit, а також загальну кількість записів.
-
-Передає отримані дані у функцію calculatePaginationData, яка розраховує та повертає інформацію для пагінації (загальну кількість сторінок, наявність наступної/попередньої).
-
-У результаті, функція повертає об'єкт зі списком студентів і повною інформацією для пагінації. */
-
-//додаємо сортування по полю і по напрямку-->
 export const getStudentById = async (studentId) => {
   const student = await StudentsCollection.findById(studentId);
   return student;
