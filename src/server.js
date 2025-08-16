@@ -3,7 +3,6 @@ import pino from 'pino-http';
 import cors from 'cors';
 
 import studentsRouter from './routers/students.js';
-
 import { getEnvVar } from './utils/getEnvVar.js';
 
 // Імпортуємо middleware

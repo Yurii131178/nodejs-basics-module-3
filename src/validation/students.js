@@ -92,7 +92,7 @@ const validationResult = createStudentSchema.validate(dataToValidate, {
 });
 
 if (validationResult.error) {
-  console.error(validationResult.error.message);
+  console.error(validationResult.error.details);
 } else {
   console.log('Data is valid!');
 }
