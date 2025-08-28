@@ -5,6 +5,8 @@ import createHttpError from 'http-errors';
 
 import { UsersCollection } from '../db/models/user.js';
 
+// ==============register================
+
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
   if (user) throw createHttpError(409, 'Email in use');
@@ -17,5 +19,18 @@ export const registerUser = async (payload) => {
   });
 };
 
-/**застосуємо хешування для зберігання паролю і скористаємось бібліотекою bcrypt/
-Під час створення моделі UsersCollection ми вказали, що email користувача має бути унікальним. Тому нам варто перевіряти email на унікальність під час реєстрації та, у разі дублювання, повертати відповідь зі статусом 409 і відповідним повідомленням. Тому додамо таку перевірку у код нашого сервісу для реєстрації */
+// ================login==================
+
+export const loginUser = async (payload) => {
+  const user = await UsersCollection.findOne({ email: payload.email });
+  if (!user) {
+    throw createHttpError(401, 'User not found');
+  }
+  const isEqual = await bcrypt.compare(payload.password, user.password); // Порівнюємо хеші паролів
+
+  if (!isEqual) {
+    throw createHttpError(401, 'Unauthorized');
+  }
+
+  // далі ми доповнемо цей сервіс
+};
