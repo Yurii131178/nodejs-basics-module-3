@@ -2,7 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 
-import studentsRouter from './routers/students.js';
+import router from './routers/index.js';
 import { getEnvVar } from './utils/getEnvVar.js';
 
 // Імпортуємо middleware
@@ -14,14 +14,9 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 export const startServer = () => {
   const app = express();
 
-  app.use(
-    express.json({
-      type: ['application/json', 'application/vnd.api+json'],
-      limit: '100kb',
-    }),
-  );
+  app.use(express.json());
 
-  app.use(cors()); // або одразу після оголошення app !!!
+  app.use(cors());
 
   app.use(
     pino({
@@ -31,9 +26,9 @@ export const startServer = () => {
     }),
   );
 
-  app.use(studentsRouter);
+  app.use(router);
 
-  //додамо middleware за допомогою app.use. -->
+
 
   app.use(notFoundHandler);
   app.use(errorHandler);
