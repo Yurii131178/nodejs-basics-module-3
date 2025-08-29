@@ -33,7 +33,8 @@ export const createStudentSchema = Joi.object({
 		    if (value && !isValidObjectId(value)) {
 		      return helper.message('Parent id should be a valid mongo id');
 		    }
-		    return true; // тут !!! true !!!
+		    //return true; // тут !!! true !!!
+        return value;
 		 }),
 }).unknown(false); // ЗАБОРОНИТИ зайві поля
 

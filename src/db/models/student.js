@@ -68,7 +68,8 @@ const studentsSchema = new Schema(
     },
     parentId: { // нова властивість
       type: Schema.Types.ObjectId,
-      ref: 'users'
+      ref: 'users',
+      required: true,
     },
   },
   {
