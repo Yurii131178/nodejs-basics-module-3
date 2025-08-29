@@ -40,6 +40,8 @@
 
 // src/db/models/student.js
 
+// src/db/models/student.js
+
 import { model, Schema } from 'mongoose';
 
 const studentsSchema = new Schema(
@@ -68,8 +70,7 @@ const studentsSchema = new Schema(
     },
     parentId: { // нова властивість
       type: Schema.Types.ObjectId,
-      ref: 'users',
-      required: true,
+      ref: 'users'
     },
   },
   {
