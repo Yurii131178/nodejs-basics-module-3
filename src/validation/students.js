@@ -1,41 +1,5 @@
-// src/validation/students.js
-
-// import Joi from 'joi';
-
-// export const createStudentSchema = Joi.object({
-//   name: Joi.string().min(3).max(30).required(),
-//   age: Joi.number().integer().min(6).max(16).required(),
-//   gender: Joi.string().valid('male', 'female', 'other').required(),
-//   avgMark: Joi.number().min(2).max(12).required(),
-//   onDuty: Joi.boolean(),
-// });
-
-/**Використання методів валідації: після визначення схеми ви можете використовувати на ній методи валідації, такі як validate або validateAsync, для перевірки об'єктів даних на відповідність цій схемі. */
-
-// const dataToValidate = {
-//   name: 'John Doe',
-//   email: 'john.doe@example.com',
-//   age: 12,
-//   gender: 'mail',
-//   avgMark: 10.2,
-// };
-
-// const validationResult = createStudentSchema.validate(dataToValidate);
-
-// if (validationResult.error) {
-//   console.error(validationResult.error.message);
-// } else {
-//   console.log('Data is valid!');
-// }
-
-// Кастомізація помилок при роботі з Joi
-// У Joi ви можете кастомізувати повідомлення про помилки для кожного правила валідації та для конкретних умов. Це дозволяє вам надати більш інформативні повідомлення для ваших користувачів або розробників, які обробляють ці помилки.
-// Ось приклад кастомізації повідомлень про помилки для різних умов в схемі:
-
-// Оголошення схеми з кастомізованими повідомленнями
-
-//...........................................................
 import Joi from 'joi';
+import { isValidObjectId } from 'mongoose';
 
 export const createStudentSchema = Joi.object({
   name: Joi.string().min(3).max(30).required().messages({
@@ -65,6 +29,12 @@ export const createStudentSchema = Joi.object({
   onDuty: Joi.boolean().messages({
     'boolean.base': 'onDuty must be a boolean value',
   }),
+  parentId: Joi.string().custom((value, helper) => {
+		    if (value && !isValidObjectId(value)) {
+		      return helper.message('Parent id should be a valid mongo id');
+		    }
+		    return true; // тут !!! true !!!
+		 }),
 }).unknown(false); // ЗАБОРОНИТИ зайві поля
 
 //створимо Joi схему для валідації об’єкта студента при його оновленні:
@@ -78,26 +48,28 @@ export const updateStudentSchema = Joi.object({
   onDuty: Joi.boolean(),
 });
 
-const dataToValidate = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  age: 12,
-  gender: 'male',
-  avgMark: 10.2,
-};
+////////////////////////////
 
-//Важливо вказати { abortEarly: false } при виклику методу validate, щоб отримати всі можливі помилки валідації, а не першу з них:
-const validationResult = createStudentSchema.validate(dataToValidate, {
-  abortEarly: false,
-});
+// const dataToValidate = {
+//   name: 'John Doe',
+//   email: 'john.doe@example.com',
+//   age: 12,
+//   gender: 'male',
+//   avgMark: 10.2,
+// };
 
-if (validationResult.error) {
-  console.error(validationResult.error.details);
-} else {
-  console.log('Data is valid!');
-}
-//..............................................................................
-/**В цьому прикладі ми використовуємо метод .messages() для кожного правила в схемі, щоб визначити свої власні повідомлення про помилки для різних умов. Тобто, правило string.base стосується .string(), string.min стосується .min(), що слідує за .string() тощо. */
+// //Важливо вказати { abortEarly: false } при виклику методу validate, щоб отримати всі можливі помилки валідації, а не першу з них:
+// const validationResult = createStudentSchema.validate(dataToValidate, {
+//   abortEarly: false,
+// });
 
-//..................................
-//..................................
+// if (validationResult.error) {
+//   console.error(validationResult.error.details);
+// } else {
+//   console.log('Data is valid!');
+// }
+// //..............................................................................
+// /**В цьому прикладі ми використовуємо метод .messages() для кожного правила в схемі, щоб визначити свої власні повідомлення про помилки для різних умов. Тобто, правило string.base стосується .string(), string.min стосується .min(), що слідує за .string() тощо. */
+
+// //..................................
+// //..................................
