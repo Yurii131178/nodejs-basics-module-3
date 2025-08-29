@@ -1,44 +1,69 @@
-import Joi from 'joi';
+// import Joi from 'joi';
+// import { isValidObjectId } from 'mongoose';
+
+// export const createStudentSchema = Joi.object({
+//   name: Joi.string().min(3).max(30).required().messages({
+//     'string.base': 'Username should be a string', // Кастомізація повідомлення для типу "string"
+//     'string.min': 'Username should have at least {#limit} characters',
+//     'string.max': 'Username should have at most {#limit} characters',
+//     'any.required': 'Username is required',
+//   }),
+//   email: Joi.string().email(),
+//   age: Joi.number().integer().min(6).max(16).required().messages({
+//     'number.base': 'Age should be a number',
+//     'number.integer': 'Age must be an integer',
+//     'number.min': 'age must be at least {#limit}',
+//     'number.max': 'age must be at most {#limit}',
+//     'any.required': 'Age is required',
+//   }),
+//   gender: Joi.string().valid('male', 'female', 'other').required().messages({
+//     'any.only': 'Gender must be one of male, female, or other',
+//     'any.required': 'Gender is required',
+//   }),
+//   avgMark: Joi.number().min(2).max(12).required().messages({
+//     'number.base': 'Average mark must be a number',
+//     'number.min': 'Average mark must be at least {#limit}',
+//     'number.max': 'Average mark must be at most {#limit}',
+//     'any.required': 'Average mark is required',
+//   }),
+//   onDuty: Joi.boolean().messages({
+//     'boolean.base': 'onDuty must be a boolean value',
+//   }),
+//   parentId: Joi.string().custom((value, helper) => {
+// 		    if (value && !isValidObjectId(value)) {
+// 		      return helper.message('Parent id should be a valid mongo id');
+// 		    }
+// 		    //return true; // тут !!! true !!!
+//         return true;
+// 		 }),
+// }).unknown(false); // ЗАБОРОНИТИ зайві поля
+
+//створимо Joi схему для валідації об’єкта студента при його оновленні:
+
+/////////////////////
+ import Joi from 'joi';
 import { isValidObjectId } from 'mongoose';
 
 export const createStudentSchema = Joi.object({
-  name: Joi.string().min(3).max(30).required().messages({
-    'string.base': 'Username should be a string', // Кастомізація повідомлення для типу "string"
-    'string.min': 'Username should have at least {#limit} characters',
-    'string.max': 'Username should have at most {#limit} characters',
-    'any.required': 'Username is required',
-  }),
-  email: Joi.string().email(),
-  age: Joi.number().integer().min(6).max(16).required().messages({
-    'number.base': 'Age should be a number',
-    'number.integer': 'Age must be an integer',
-    'number.min': 'age must be at least {#limit}',
-    'number.max': 'age must be at most {#limit}',
-    'any.required': 'Age is required',
-  }),
-  gender: Joi.string().valid('male', 'female', 'other').required().messages({
-    'any.only': 'Gender must be one of male, female, or other',
-    'any.required': 'Gender is required',
-  }),
-  avgMark: Joi.number().min(2).max(12).required().messages({
-    'number.base': 'Average mark must be a number',
-    'number.min': 'Average mark must be at least {#limit}',
-    'number.max': 'Average mark must be at most {#limit}',
-    'any.required': 'Average mark is required',
-  }),
-  onDuty: Joi.boolean().messages({
-    'boolean.base': 'onDuty must be a boolean value',
-  }),
+  name: Joi.string().min(3).max(30).required(),
+  age: Joi.number().integer().min(6).max(16).required(),
+  gender: Joi.string().valid('male', 'female', 'other').required(),
+  avgMark: Joi.number().min(2).max(12).required(),
+  onDuty: Joi.boolean(),
   parentId: Joi.string().custom((value, helper) => {
 		    if (value && !isValidObjectId(value)) {
 		      return helper.message('Parent id should be a valid mongo id');
 		    }
-		    //return true; // тут !!! true !!!
-        return true;
+		    return true;
 		 }),
-}).unknown(false); // ЗАБОРОНИТИ зайві поля
+});
 
-//створимо Joi схему для валідації об’єкта студента при його оновленні:
+
+//////////////////////
+
+
+
+
 
 export const updateStudentSchema = Joi.object({
   name: Joi.string().min(3).max(30),
