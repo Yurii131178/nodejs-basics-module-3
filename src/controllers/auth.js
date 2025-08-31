@@ -1,7 +1,7 @@
 // src/controllers/auth.js
 
 import { ONE_DAY } from '../constants/index.js';
-import { loginUser, logoutUser, refreshUsersSession, registerUser, requestResetToken } from '../services/auth.js';
+import { loginUser, logoutUser, refreshUsersSession, registerUser, requestResetToken, resetPassword } from '../services/auth.js';
 
 // ==============register================
 
@@ -81,12 +81,23 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
- // =================requestResetEmail================
+ // ===============requestResetEmail================
 
 export const requestResetEmailController = async (req, res) => {
   await requestResetToken(req.body.email);
   res.json({
     message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
+};
+
+ // ========reset password=============
+
+ export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
     status: 200,
     data: {},
   });
