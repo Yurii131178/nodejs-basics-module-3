@@ -1,7 +1,7 @@
 // src/controllers/auth.js
 
 import { ONE_DAY } from '../constants/index.js';
-import { loginUser, logoutUser, refreshUsersSession, registerUser } from '../services/auth.js';
+import { loginUser, logoutUser, refreshUsersSession, registerUser, requestResetToken } from '../services/auth.js';
 
 // ==============register================
 
@@ -82,8 +82,6 @@ export const refreshUserSessionController = async (req, res) => {
   });
 };
  // =================requestResetEmail================
-
- import { requestResetToken } from '../services/auth.js';
 
 export const requestResetEmailController = async (req, res) => {
   await requestResetToken(req.body.email);
