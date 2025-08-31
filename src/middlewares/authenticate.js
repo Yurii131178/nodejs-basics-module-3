@@ -38,7 +38,10 @@ export const authenticate = async (req, res, next) => {
   const user = await UsersCollection.findById(session.userId);
 
   if (!user) {
-    next(createHttpError(401));
+    // Якщо користувач не знайдений → видаляємо сесію
+    await SessionsCollection.deleteOne({ _id: session._id });
+
+    next(createHttpError(401, 'User not found'));
     return;
   }
 
