@@ -8,6 +8,14 @@ import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
 import { UsersCollection } from '../db/models/user.js';
 
+// module-6-reset-pass
+
+import jwt from 'jsonwebtoken';
+
+import { SMTP } from '../constants/index.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+import { sendEmail } from '../utils/sendMail.js';
+
 // ==============register================
 
 export const registerUser = async (payload) => {
@@ -98,13 +106,6 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
 // ----resetToken------
 
-import jwt from 'jsonwebtoken';
-
-import { SMTP } from '../constants/index.js';
-import { getEnvVar } from '../utils/getEnvVar.js';
-import { sendEmail } from '../utils/sendMail.js';
-
-
 export const requestResetToken = async (email) => {
   const user = await UsersCollection.findOne({ email });
   if (!user) {
@@ -128,8 +129,4 @@ export const requestResetToken = async (email) => {
     subject: 'Reset your password',
     html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
   });
-
-
-
-
 };
