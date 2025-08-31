@@ -23,3 +23,9 @@ export const loginUserSchema = Joi.object({
 
   password: Joi.string().required(),
 });
+
+// ------reset-----
+
+export const requestResetEmailSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
