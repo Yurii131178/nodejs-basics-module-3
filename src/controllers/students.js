@@ -104,6 +104,7 @@ export const upsertStudentController = async (req, res, next) => {
 // PATCH-route
 export const patchStudentController = async (req, res, next) => {
   const { studentId } = req.params;
+
   const result = await updateStudent(studentId, req.body);
 
   if (!result) {
@@ -117,3 +118,6 @@ export const patchStudentController = async (req, res, next) => {
     data: result.student,
   });
 };
+
+
+

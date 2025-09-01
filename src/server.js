@@ -4,10 +4,11 @@ import cors from 'cors';
 
 import router from './routers/index.js';
 import { getEnvVar } from './utils/getEnvVar.js';
-
+import { UPLOAD_DIR } from './constants/index.js';
 
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+
 
 import cookieParser from 'cookie-parser';
 
@@ -30,6 +31,7 @@ export const startServer = () => {
     }),
   );
 
+  app.use('/uploads', express.static(UPLOAD_DIR)); // дозволяє обслуговувати статичні файли (зображення, док-ти)
   app.use(router);
 
 
