@@ -15,6 +15,8 @@ export const ROLES = {
   PARENT: 'parent',
 };
 
+// -----password reset-----
+
 export const SMTP = {
   SMTP_HOST: 'SMTP_HOST',
   SMTP_PORT: 'SMTP_PORT',
@@ -24,3 +26,8 @@ export const SMTP = {
 };
 
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
+
+// -----images uplaoding-----
+
+export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
+export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
