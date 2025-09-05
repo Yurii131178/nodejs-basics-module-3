@@ -1,8 +1,8 @@
 import { OAuth2Client } from 'google-auth-library';
 import path from 'node:path';
 import { readFile } from 'fs/promises';
-
 import { getEnvVar } from './getEnvVar.js';
+import createHttpError from 'http-errors';
 
 const PATH_JSON = path.join(process.cwd(), 'google-oauth.json');
 
@@ -33,3 +33,27 @@ redirectUri: URI, на який буде перенаправлено корис
 
 https://www.googleapis.com/auth/userinfo.email: Дозвіл на доступ до електронної пошти користувача.
 https://www.googleapis.com/auth/userinfo.profile: Дозвіл на доступ до профілю користувача.*/
+
+///////////////////////////////
+
+export const validateCode = async (code) => {
+  const response = await googleOAuthClient.getToken(code);
+  if (!response.tokens.id_token) throw createHttpError(401, 'Unauthorized');
+
+  const ticket = await googleOAuthClient.verifyIdToken({
+    idToken: response.tokens.id_token,
+  });
+  return ticket;
+};
+
+export const getFullNameFromGoogleTokenPayload = (payload) => {
+  let fullName = 'Guest';
+  if (payload.given_name && payload.family_name) {
+    fullName = `${payload.given_name} ${payload.family_name}`;
+  } else if (payload.given_name) {
+    fullName = payload.given_name;
+  }
+
+  return fullName;
+};
+/**У функції validateCode в полі response.tokens.id_token буде ****лежати jwt токен, який ми можемо розшифрувати як за допомогою бібліотеки jsonwebtoken, так і за допомогою метода verifyIdToken з нашого клієнта. Краще слідувати рекомендаціям Google і скористатися їх спеціалізованим методом.*/
