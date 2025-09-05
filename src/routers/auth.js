@@ -47,8 +47,6 @@ router.post('/logout', ctrlWrapper(logoutUserController));
 
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
-export default router;
-
 // ----request-reset-email----
 
 router.post(
@@ -76,3 +74,5 @@ router.post(
   validateBody(loginWithGoogleOAuthSchema),
   ctrlWrapper(loginWithGoogleController),
 );
+
+export default router;
