@@ -4,6 +4,7 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   loginUserSchema,
+  loginWithGoogleOAuthSchema,
   registerUserSchema,
   requestResetEmailSchema,
   resetPasswordSchema,
@@ -11,6 +12,7 @@ import {
 import {
   getGoogleOAuthUrlController,
   loginUserController,
+  loginWithGoogleController,
   logoutUserController,
   refreshUserSessionController,
   registerUserController,
@@ -66,3 +68,11 @@ router.post(
 //---- get-oauth-url ----
 
 router.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
+
+//----confirm-oauth-----
+
+router.post(
+  '/confirm-oauth',
+  validateBody(loginWithGoogleOAuthSchema),
+  ctrlWrapper(loginWithGoogleController),
+);
