@@ -1,7 +1,16 @@
 // src/controllers/auth.js
 
 import { ONE_DAY } from '../constants/index.js';
-import { loginUser, logoutUser, refreshUsersSession, registerUser, requestResetToken, resetPassword } from '../services/auth.js';
+import {
+  loginUser,
+  logoutUser,
+  refreshUsersSession,
+  registerUser,
+  requestResetToken,
+  resetPassword,
+} from '../services/auth.js';
+
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 
 // ==============register================
 
@@ -51,7 +60,6 @@ export const logoutUserController = async (req, res) => {
   res.status(204).send();
 };
 
-
 // ================refresh==================
 
 const setupSession = (res, session) => {
@@ -81,7 +89,7 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
- // ===============requestResetEmail================
+// ===============requestResetEmail================
 
 export const requestResetEmailController = async (req, res) => {
   await requestResetToken(req.body.email);
@@ -92,13 +100,26 @@ export const requestResetEmailController = async (req, res) => {
   });
 };
 
- // ========reset password=============
+// ========reset password=============
 
- export const resetPasswordController = async (req, res) => {
+export const resetPasswordController = async (req, res) => {
   await resetPassword(req.body);
   res.json({
     message: 'Password was successfully reset!',
     status: 200,
     data: {},
+  });
+};
+
+// ========== generateAuthUrl ==============
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
   });
 };
