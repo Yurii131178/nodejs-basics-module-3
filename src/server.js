@@ -9,8 +9,9 @@ import { UPLOAD_DIR } from './constants/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
-
 import cookieParser from 'cookie-parser';
+
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -32,9 +33,10 @@ export const startServer = () => {
   );
 
   app.use('/uploads', express.static(UPLOAD_DIR)); // дозволяє обслуговувати статичні файли (зображення, док-ти)
+
+  app.use('/api-docs', swaggerDocs()); // swagger
+
   app.use(router);
-
-
 
   app.use(notFoundHandler);
   app.use(errorHandler);
