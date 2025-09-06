@@ -14,7 +14,13 @@ tags:
 servers:
   - url: http://localhost:3000
   - url: https://seven-swagger.onrender.com
-# paths:
+paths:
+  /students:
+    post:
+      $ref: ../swagger/paths/students/post.yaml
+  /students/{id}:
+    get:
+      $ref: ../swagger/paths/students/{id}/get.yaml
 components:
   securitySchemes:
     bearerAuth:
